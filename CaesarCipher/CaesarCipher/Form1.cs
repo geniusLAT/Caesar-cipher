@@ -19,7 +19,7 @@ namespace CaesarCipher
         const string AL = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";//Алфавит шифруемого языка, в данном случае русского
         string F = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";//Алфавит смещения, можно без него, но тест показал, что так выполняется быстрее
         int key = 0;//ключ шифрования
-        string path = "log.txt";
+        string path = "log.txt";//Можно дописать какой угодно путь для записи, но так как это не является частью задания, оставлю банальное log.txt
         public Form1()
         {
             InitializeComponent();//Это стандартная штука Windows Forms, к заданию отношения не имеет, просто нужна
@@ -30,12 +30,21 @@ namespace CaesarCipher
             textOutputField.Text = Process(textInputField.Text);//При нажатии запускается функция Process с текстом с верхнего поля в качестве аргумента
             //Результат работы функции выводится  в нижний 
         }
-        void Log(string message)
+        void Log(string message)//Функция, которая дописывает в Log.txt строку message
         {
-            StreamWriter writer = new StreamWriter(path, true);
-            writer.WriteLine(message);
-            //writer.
-            writer.Close();
+            try//Если вознкнет ошибка logger не сломает остальную программу
+            {
+                StreamWriter writer = new StreamWriter(path, true);//Создаём записыватель, true обозначает, что не надо пересоздавать файл
+                writer.WriteLine(message);//В файл дописывается message с новой строки
+                writer.Close();//Файл сохраняется и его можно открыть.
+            }
+            catch(Exception e)
+            {
+                //Тут можно прописать, что сделает программа в случае ошибки. В моём случае создаётся второй файл.
+                StreamWriter writer = new StreamWriter("log2.txt", true);
+                writer.WriteLine("Возникла ошибка с основным файлом"+e.Message);
+                writer.Close();
+            }
         }
         string Process(string original)//Основная функция, которая производит смещение
         {
@@ -68,9 +77,9 @@ namespace CaesarCipher
             
 
            
-            string message = DateTime.Now+": ";
-            message+= "\"" +original+ "\" was converted to \""+NewOne+"\" with key = "+key.ToString();
-            Log(message);
+            string message = DateTime.Now+": ";//Записываем дату и время
+            message+= "\"" +original+ "\" was converted to \""+NewOne+"\" with key = "+key.ToString();//Записываем что и во что шифровали, каким ключом
+            Log(message);//Пишем в лог
            
             return NewOne;//Возвращает
         }
@@ -88,9 +97,9 @@ namespace CaesarCipher
             catch (System.FormatException)//Вызывается, если игрок пытается ввести что-то, что не получится преобразить к int
             {
               
-                string message = DateTime.Now + ": ";
-                message += " user tryed to get \"" + textBox1.Text + "\" as key, but it commited the error";
-                Log(message);
+                string message = DateTime.Now + ": ";//Пишем время и дату
+                message += " user tryed to get \"" + textBox1.Text + "\" as key, but it commited the error";//Пишем, что пытался пользователь использовать как ключ
+                Log(message);//Пишем в лог
               
             }
             textBox1.Text = key.ToString();//Ставим в поле ключа новый ключ
