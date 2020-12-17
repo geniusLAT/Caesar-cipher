@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.IO;
 
 
 namespace CaesarCipher
@@ -19,6 +19,7 @@ namespace CaesarCipher
         const string AL = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";//Алфавит шифруемого языка, в данном случае русского
         string F = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";//Алфавит смещения, можно без него, но тест показал, что так выполняется быстрее
         int key = 0;//ключ шифрования
+        string path = "log.txt";
         public Form1()
         {
             InitializeComponent();//Это стандартная штука Windows Forms, к заданию отношения не имеет, просто нужна
@@ -29,7 +30,13 @@ namespace CaesarCipher
             textOutputField.Text = Process(textInputField.Text);//При нажатии запускается функция Process с текстом с верхнего поля в качестве аргумента
             //Результат работы функции выводится  в нижний 
         }
-
+        void Log(string message)
+        {
+            StreamWriter writer = new StreamWriter(path, true);
+            writer.WriteLine(message);
+            //writer.
+            writer.Close();
+        }
         string Process(string original)//Основная функция, которая производит смещение
         {
             string NewOne = "";//Сделал строку, в которую мы будем писать
@@ -58,7 +65,14 @@ namespace CaesarCipher
                 }
                 
             }
-            return NewOne;//Вовзвращает
+            
+
+           
+            string message = DateTime.Now+": ";
+            message+= "\"" +original+ "\" was converted to \""+NewOne+"\" with key = "+key.ToString();
+            Log(message);
+           
+            return NewOne;//Возвращает
         }
 
         private void textBox1_Validated(object sender, EventArgs e)//Юзер ввёл новое число в поле ключа
@@ -73,8 +87,11 @@ namespace CaesarCipher
             }
             catch (System.FormatException)//Вызывается, если игрок пытается ввести что-то, что не получится преобразить к int
             {
-                //Потом тут будет записываться сообщение об ошибке, но не в этой версии
-
+              
+                string message = DateTime.Now + ": ";
+                message += " user tryed to get \"" + textBox1.Text + "\" as key, but it commited the error";
+                Log(message);
+              
             }
             textBox1.Text = key.ToString();//Ставим в поле ключа новый ключ
 
