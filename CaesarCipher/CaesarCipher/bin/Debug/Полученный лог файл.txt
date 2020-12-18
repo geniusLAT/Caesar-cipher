@@ -1,0 +1,8 @@
+17.12.2020 22:35:39: "test тест" was converted to "test фжуф" with key = 2
+17.12.2020 22:35:48: "test фжуф" was converted to "test тест" with key = -2
+17.12.2020 22:36:11: "цезарь" was converted to "эложчг" with key = 7
+17.12.2020 22:36:18: "эложчг" was converted to "цезарь" with key = -7
+17.12.2020 22:36:22:  user tryed to get "н" as key, but it commited the error
+17.12.2020 22:36:58: "5!t - не шифруются." was converted to "5!t - рз ылчуцбхфв." with key = 3
+17.12.2020 22:37:05: "5!t - рз ылчуцбхфв." was converted to "5!t - не шифруются." with key = -3
+18.12.2020 11:20:30: "физтех - лучше всех." was converted to "цкйфжч - нхщъж дужч." with key = 2
